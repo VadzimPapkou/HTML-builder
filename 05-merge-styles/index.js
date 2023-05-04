@@ -21,4 +21,4 @@ async function main() {
   fs.writeFile(path.join(OUTPUT_PATH, 'bundle.css'), result);
 }
 
-main()
+main();
