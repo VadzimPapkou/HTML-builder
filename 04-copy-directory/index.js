@@ -22,5 +22,12 @@ async function copyDir(from, to) {
   }
 }
 
-fs.rm(TO, {recursive: true})
-  .then(() => copyDir(FROM, TO));
+async function main() {
+  if(await fs.exists(TO)) {
+    await fs.rm(TO, {recursive: true});
+  }
+
+  await copyDir(FROM, TO);
+}
+
+main();
