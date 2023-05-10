@@ -11,8 +11,8 @@ async function main() {
   const ws = createWriteStream(OUTPUT);
 
   process.stdin.on('data', data => {
-    const stringInput = data.toString();
-    if(stringInput.startsWith('exit')) return process.emit('SIGINT');
+    const stringInput = data.toString().replace(/[\n\r]/g, '');
+    if(stringInput ==='exit') return process.emit('SIGINT');
     ws.write(stringInput);
   });
 
