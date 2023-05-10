@@ -17,7 +17,7 @@ async function main() {
   const components = await readComponents();
 
   const template = (await fs.readFile(path.join(ROOT_PATH, 'template.html'))).toString();
-  const resultHtml = template.replace(/{{.+}}/gi, (substring => {
+  const resultHtml = template.replace(/{{.+?}}/gi, (substring => {
     const componentName = substring.slice(2, -2);
     return components[componentName];
   }));
@@ -32,11 +32,13 @@ async function readComponents() {
 
   const components = await Promise.all(
     nodes.map(node => fs.readFile(path.join(COMPONENTS_PATH, node))
-      .then(content => [path.parse(node).name, content.toString()])
+      .then(content => [path.parse(node).ext.slice(1), path.parse(node).name, content.toString()])
     )
   );
 
-  return Object.fromEntries(components);
+  const htmlComponents = components.filter(([ext]) => ext === 'html').map(component => component.slice(1));
+
+  return Object.fromEntries(htmlComponents);
 }
 
 async function mergeStyles() {
