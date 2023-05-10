@@ -4,6 +4,8 @@ const path = require('path');
 const FROM = path.join(__dirname, 'files');
 const TO = path.join(__dirname, 'files-copy');
 
+const fileExists = async path => !!(await fs.stat(path).catch(() => false));
+
 async function copyDir(from, to) {
   await fs.mkdir(to);
   const nodes = await fs.readdir(from);
@@ -23,7 +25,7 @@ async function copyDir(from, to) {
 }
 
 async function main() {
-  if(await fs.exists(TO)) {
+  if(await fileExists(TO)) {
     await fs.rm(TO, {recursive: true});
   }
 
