@@ -12,7 +12,7 @@ async function readfiles(from) {
     .map(({node, stats}) => {
       const size = stats.size;
       const {name, ext} = path.parse(node);
-      return [name, ext, size].join(' - ');
+      return [name, ext.slice(1), size].join(' - ');
     })
     .join('\n');
   console.log(result);
